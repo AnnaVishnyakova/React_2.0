@@ -1,7 +1,19 @@
-import './style.css'
+import React from "react";
+import "./style.css";
 
-export const Message= ({text,func})=>{
-   
-    return ( <h3 className="header" onClick={func}> My name is: {text} </h3> )
+export class Message extends React.Component {
+  render() {
+    const {author,text} = this.props;
     
+    return (
+        <div className="message-item">
+            <p className = "message-author" >
+                {author}
+            </p>
+            <p className = "message-text" >
+                {text}
+            </p>
+        </div>
+    );
+  }
 }
