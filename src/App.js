@@ -1,44 +1,42 @@
 import React, { useState } from "react";
 //import logo from "./logo.svg";
 import "./App.css";
-import { Message } from "./components/Message";
+import { MessageList } from "./components/MessageList";
 import {AUTHORS} from './utils/constants'
 import { Form } from "./components/Form";
 import { useEffect } from "react/cjs/react.development";
 
+
 function App() {
-  const [messageList, setMessageList] = useState([
-    { text: "msg1", author:AUTHORS.ME },
-    // { text: "i am bot", author: "Robot" },
-  ]);
+  const [messageList, setMessageList] = useState([]);
   
-  // const handleMessageClick = () => {
-  //   console.log("hello!!!");
-  // };
-  
+ 
   const handleAddMessage = (text) => {
-    const newMessage={
-      text,
-      author:AUTHORS.ME
-    };
-    setMessageList((prevMessageList) => [...prevMessageList, newMessage]);
+    sendMessage(text, AUTHORS.ME);
   };
 
-  useEffect(() => {
-    if (messageList[messageList.length - 1].author === AUTHORS.ME && messageList[messageList.length-1].text) {
+  const sendMessage =(text,author)=>{
       const newMessage = {
-        text:'Hi, i am robot',
-        author: AUTHORS.BOT
+        text,
+        author
       };
-      setTimeout(() => {
-            setMessageList((prevMessageList) => [...prevMessageList, newMessage]);},1500)
-    } 
-    // console.log(messageList[messageList.length - 1]);
+      setMessageList((prevMessageList) => [...prevMessageList, newMessage]);
+  }
+
+  useEffect(() => {
+    let timeout;
+    if (messageList[messageList.length - 1].author === AUTHORS.ME ) {
+        timeout= setTimeout(() => {
+          sendMessage('still here',AUTHORS.BOT);
+        }, 1500);
+      };
+      return ()=>{
+        clearTimeout(timeout)
+      }
   }, [messageList]);
 
   return (
     <>
-      
       <div className="App">
         <header className="App-header">
           <h2> CHAT </h2>
@@ -49,12 +47,8 @@ function App() {
             Будующие чаты
           </div>
           <div className="message__field">
-            {
-            messageList.map((message) => (
-            <Message  text={message.text} author={message.author}/>
-          ))}
-           
-          </div>
+           <MessageList messages={messageList} />
+           </div>
           </div>
           <Form className="massage__form" onSubmit={handleAddMessage} />
         </main>
