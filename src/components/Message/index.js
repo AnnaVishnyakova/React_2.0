@@ -13,6 +13,7 @@ export class Message extends React.Component {
             <p className = "message-text" >
                 {text}
             </p>
+            
         </div>
     );
   }

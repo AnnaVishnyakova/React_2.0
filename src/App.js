@@ -1,14 +1,18 @@
 import React, { useState } from "react";
 //import logo from "./logo.svg";
 import "./App.css";
+//  { Message } from "./components/Message";
 import { MessageList } from "./components/MessageList";
-import {AUTHORS} from './utils/constants'
-import { Form } from "./components/Form";
-import { useEffect } from "react/cjs/react.development";
+import {AUTHORS} from './utils/constants';
+//  import { Form } from "./components/Form";
+import { FormMui } from "./components/FormMui";
+import{ useEffect } from "react/cjs/react.development";
 
 
 function App() {
-  const [messageList, setMessageList] = useState([]);
+  const [messageList, setMessageList] = useState([
+    {id:'fsf', text: "msg1", author:AUTHORS.ME },
+  ]);
   
  
   const handleAddMessage = (text) => {
@@ -18,7 +22,8 @@ function App() {
   const sendMessage =(text,author)=>{
       const newMessage = {
         text,
-        author
+        author,
+        id:`newMessage-${Date.now()}`,
       };
       setMessageList((prevMessageList) => [...prevMessageList, newMessage]);
   }
@@ -27,12 +32,15 @@ function App() {
     let timeout;
     if (messageList[messageList.length - 1].author === AUTHORS.ME ) {
         timeout= setTimeout(() => {
-          sendMessage('still here',AUTHORS.BOT);
+          sendMessage('Привет, я бот. Как дела?',AUTHORS.BOT);
         }, 1500);
+      
       };
       return ()=>{
         clearTimeout(timeout)
       }
+
+      
   }, [messageList]);
 
   return (
@@ -47,10 +55,11 @@ function App() {
             Будующие чаты
           </div>
           <div className="message__field">
-           <MessageList messages={messageList} />
+           <MessageList messages={messageList}/>
            </div>
           </div>
-          <Form className="massage__form" onSubmit={handleAddMessage} />
+          <FormMui onSubmit={handleAddMessage}/>
+          {/* <Form className="massage__form" onSubmit={handleAddMessage} /> */}
         </main>
        
       </div>
