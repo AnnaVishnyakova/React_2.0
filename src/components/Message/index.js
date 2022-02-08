@@ -1,5 +1,6 @@
 import React from "react";
 import "./style.css";
+import PropTypes from "prop-types";
 
 export class Message extends React.Component {
   render() {
@@ -17,4 +18,8 @@ export class Message extends React.Component {
         </div>
     );
   }
+}
+Message.propTypes={
+  text:PropTypes.string.isRequired,
+  author: PropTypes.string.isRequired,
 }

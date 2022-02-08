@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useRef,} from "react";
 //import logo from "./logo.svg";
 import "./App.css";
-//  { Message } from "./components/Message";
+import { MessageChats } from "./components/MessageChats";
 import { MessageList } from "./components/MessageList";
 import {AUTHORS} from './utils/constants';
 //  import { Form } from "./components/Form";
@@ -13,6 +13,7 @@ function App() {
   const [messageList, setMessageList] = useState([
     {id:'fsf', text: "msg1", author:AUTHORS.ME },
   ]);
+  const messagesEnd =useRef()
   
  
   const handleAddMessage = (text) => {
@@ -29,6 +30,8 @@ function App() {
   }
 
   useEffect(() => {
+    messagesEnd.current?.scrollIntoView();
+
     let timeout;
     if (messageList[messageList.length - 1].author === AUTHORS.ME ) {
         timeout= setTimeout(() => {
@@ -43,6 +46,11 @@ function App() {
       
   }, [messageList]);
 
+  useEffect(() => {
+      console.log(messagesEnd)
+
+  },[]);
+
   return (
     <>
       <div className="App">
@@ -52,10 +60,11 @@ function App() {
         <main className="message__main">
           <div className = "message__window" >
             <div className="message__chat">
-            Будующие чаты
+            <MessageChats/>
           </div>
           <div className="message__field">
            <MessageList messages={messageList}/>
+           <div ref={messagesEnd}></div>
            </div>
           </div>
           <FormMui onSubmit={handleAddMessage}/>

@@ -1,11 +1,12 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState,useRef } from "react";
 import {TextField,Button} from "@mui/material";
 
 
 // /import "./styles.css";
 
 export const FormMui = ({ onSubmit }) => {
-  const [value, setValue] = useState("");
+  const [value, setValue] = useState(""); 
+  const messageFocus = useRef()
  
 
   const handleChange = (e) => {
@@ -17,15 +18,16 @@ export const FormMui = ({ onSubmit }) => {
     e.preventDefault();
     onSubmit(value);
     setValue("");
-    console.log(autoFocus)
-    
+     messageFocus.current?.focus();
   };
+
+  useEffect(()=>{
+    messageFocus.current?.focus();
+  },[])
   
-  
-    
   return (
     <form onSubmit={handleSubmit}>
-      <TextField value={value} onChange={handleChange} autoFocus/>
+      <TextField value={value} onChange={handleChange} inputRef={messageFocus}/>
       <Button type="submit" variant="outlined">Send</Button>
     </form>
   );
