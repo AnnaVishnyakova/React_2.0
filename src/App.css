@@ -15,7 +15,7 @@
 
 .App-header {
   background-color: #282c34;
-  min-height: 100vh;
+  min-height: 100px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -23,6 +23,7 @@
   font-size: calc(10px + 2vmin);
   color: white;
 }
+
 
 .App-link {
   color: #61dafb;
@@ -36,3 +37,33 @@
     transform: rotate(360deg);
   }
 }
+.message__main{
+  display: flex;
+  flex-direction: column;
+  
+
+}
+.message__window{
+  height: 600px;
+  display: flex;
+}
+.message__chat{
+ flex-basis: 200px;
+ border:1px solid #282c34;
+}
+.message__field {
+  display: flex;
+  overflow-y: auto;
+  flex-direction: column;
+  
+  height: 100%;
+  width: 100%;
+  /*  */
+  overflow-y: scroll;
+  background-color: #fff;
+  /* background-image: url(../img/img-fonChat.png); */
+}
+/* 
+.message__form{
+ 
+} */

@@ -1,0 +1,9 @@
+.chat-list {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background-color: rgb(220, 242, 245);
+    width: 30%;
+    overflow-y: auto;
+    height: 400px;
+}
