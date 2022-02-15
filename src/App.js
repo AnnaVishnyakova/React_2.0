@@ -1,25 +1,5 @@
+import { Router } from "react-router-dom";
 
-import './App.css';
-import { Message } from './components/Message';
-const myName = "Anna"
-function App() {
-  const handleMessageClick=()=>{
-    console.log('test function')
-  }
-  return (
-    <div className="App">
-      <header className="App-header">
-        
-        < Message text = {
-          myName
-        }
-        func = {
-          handleMessageClick
-        }
-        />
-      </header>
-    </div>
-  );
-}
+  const App=()=><Router />
 
 export default App;
