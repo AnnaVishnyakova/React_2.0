@@ -13,39 +13,11 @@ import {
 
 
 
-export const MessageField=() =>{
+export const MessageField=({messageList,addMessage}) =>{
 
-  // const params = useParams();
-  // // const navigate = useNavigate();
-  // const { chatId } = params;
-
-  const [messageList, setMessageList] = useState(
-   {
-    chat1: [{
-         text: "Привет!",
-         author: 'bot'
-       },
-       // {value:''},
-       // {input:''},
-     ],
-      chat2: [
-
-     ],
-      chat3: [{
-         text: "Пока!",
-         author: 'bot'
-       },
-       // {value:''},
-       // {input:''},
-     ],
-    }
-  );
   const messagesEnd =useRef()
   const {chatId} = useParams();
 
-  // const {chatId} = params;
-  // console.log(params)
- 
   const handleAddMessage = (text) => {
     sendMessage(text, AUTHORS.ME);
   };
@@ -57,10 +29,7 @@ export const MessageField=() =>{
         author,
         id:`newMessage-${Date.now()}`,
       };
-      setMessageList((prevMessageList) => ({
-        ...prevMessageList,
-        [chatId]: [...prevMessageList[chatId], newMessage],
-      }));
+      addMessage(chatId, newMessage);
   }
 
   useEffect(() => {

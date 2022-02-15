@@ -5,25 +5,14 @@ import {
      ListItemText,
    
 } from '@mui/material';
-import './chats.css';
-import { Link } from 'react-router-dom';
 
-const chats = [{
-        nameChat: "Chat 1",
-        id: "chat1",
-    },
-    {
-        nameChat: "Chat 2",
-        id: "chat2",
-    },
-    {
-        nameChat: "Chat 3",
-        id: "chat3",
-    },
-];
+import { Link,Outlet } from 'react-router-dom';
+import { FormMui } from '../FormMui';
 
-export const ChatList =()=>{
-     
+
+
+export const ChatList =({chats,onAddChat,delChat})=>{
+    
 
 return(
     <div  className='chat-list'>
@@ -33,13 +22,13 @@ return(
                  < ListItem disablePadding >
                     <ListItemButton>
                         <ListItemText primary={chat.nameChat} />
+                        <button onClick={()=>delChat(chat.id)}>del</button>
                     </ListItemButton>
                 </ListItem>
                 </Link>
             ))}
         </List>
-
-        
+        <FormMui  onSubmit={onAddChat}/>
     </div>
 )
 }

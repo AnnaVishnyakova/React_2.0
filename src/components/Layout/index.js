@@ -28,7 +28,7 @@ export const Layout =()=>{
         <>
             <header>
                 <CustomLink to="/">Home</CustomLink>
-                <CustomLink to="/chat">Chat</CustomLink>
+                <CustomLink to="/chats">Chat</CustomLink>
                 <CustomLink to="/profile">Profile</CustomLink>
             </header>
             <Outlet />

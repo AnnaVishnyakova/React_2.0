@@ -13,24 +13,83 @@ import {
     Route,
 }  from 'react-router-dom'
 
+import React, {
+    useState,
+    useRef,
+    useEffect
+} from "react";
+
 import {HomePage} from '../../pages/HomePage';
 import {ChatPage} from '../../pages/ChatPage';
 import {ProfilePage} from '../../pages/ProfilePage';
 import {NotFoundPage} from '../../pages/NotFoundPage';
 import {Layout} from '../Layout';
-import {MessageField} from '../MessageField'
+import {MessageField} from '../MessageField';
+
+const initialChats = [{
+        nameChat: "Chat 1",
+        id: "chat1",
+    },
+    {
+        nameChat: "Chat 2",
+        id: "chat2",
+    },
+    {
+        nameChat: "Chat 3",
+        id: "chat3",
+    },
+];
+
+
+const initialMessages = initialChats.reduce((acc, el) => {
+    acc[el.id] = [];
+    return acc;
+}, {});
 
 
 export const Router=()=>{
+    const [chatList, setChatList] = useState(initialChats);
+    const [messages, setMessages] = useState(initialMessages);
+
+    const handleAddMessage = (chatId, newMessage) => {
+        setMessages((prevMessages) => ({
+            ...prevMessages,
+            [chatId]: [...prevMessages[chatId], newMessage],
+        }));
+    };
+
+    const handleAddchat=(newChatName)=>{
+        const newId=`chat-${Date.now()}`;
+        const newChat={
+            id:newId,
+            nameChat: newChatName,
+        };
+
+        setChatList((prevChatList)=>[...prevChatList,newChat]);
+        setMessages((prevMessages)=>({...prevMessages,
+            [newId]:[]
+        }))
+    }
+
+    const handleDelchat = (idDelChat) => {
+        setChatList(prevChatList=>prevChatList.filter(chat=>chat.id!==idDelChat));
+        setMessages((prevMessages) => {
+            const newMessages ={...prevMessages};
+            delete newMessages[idDelChat];
+            return newMessages
+        })
+
+    }
+
     return(
         <>
         <Routes>
             <Route path="/" element ={<Layout />}>
                 <Route index element={<HomePage />}/>
                 <Route path="profile" element={<ProfilePage/>}/>
-                <Route path="chat" element={<ChatPage/>}>
-                    {/* <Route index element={<span>Please select a chat</span>} /> */}
-                    <Route path=':chatId' element={<MessageField/>} />
+                <Route path="chats" element={<ChatPage chatList={chatList} onAddChat={handleAddchat} delChat={handleDelchat}/> }>
+                    <Route index element={<span>Please select a chat</span>} />
+                    <Route path=':chatId' element={<MessageField messageList={messages} addMessage={handleAddMessage}/>} />
                 </Route>
                 <Route path="*" element={<NotFoundPage/>}/>
             </Route>
@@ -38,33 +97,6 @@ export const Router=()=>{
         </>
 
 
-        // <BrowserRouter>
-        //     <Box sx={{ flexGrow: 1 }}>
-        //         <AppBar position="static">
-        //             <Toolbar>
-        //                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        //                     <Link to="/">Home</Link>
-        //                 </Typography>
-        //                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        //                     <Link to="/chats">Layout</Link>
-        //                 </Typography>
-        //                 <Typography variant="h6" component="div" sx={{ flexGrow: 1 }}>
-        //                     <Link to="/profile">Profile</Link>
-        //                 </Typography>
-        //             </Toolbar>
-        //         </AppBar>
-        //     </Box>
-       
-        //     <Routes>
-        //         <Route path="/" element={<Home />}></Route>
-        //         <Route  path='/chats' element={<Layout/>}/>
-        //         {/* <Route path="chats" element={<ChatList />}>
-                     
-        //             <Route path=":chatId" element={<MessageField/>}/> 
-        //         </Route> */}
-        //         {/* <Route path="/profile" element={<App />}></Route> */}
-        //     </Routes>
-        // </BrowserRouter>
     )
 }
 
