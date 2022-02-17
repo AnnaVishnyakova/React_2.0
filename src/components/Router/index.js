@@ -1,13 +1,3 @@
-// import AppBar from '@mui/material/AppBar';
-// import Box from '@mui/material/Box';
-// import Toolbar from '@mui/material/Toolbar';
-// import Typography from '@mui/material/Typography';
-// // import App from "../../App"
-// import { ChatList } from '../ChatList';
-// import { MessageField } from '../MessageField';
-// import {useParams} from "react-router";
-// import { Layout } from '../Layout';
-
 import {
     Routes,
     Route,
@@ -25,6 +15,8 @@ import {ProfilePage} from '../../pages/ProfilePage';
 import {NotFoundPage} from '../../pages/NotFoundPage';
 import {Layout} from '../Layout';
 import {MessageField} from '../MessageField';
+import { useDispatch, useSelector } from 'react-redux';
+import { addChat, deleteChat } from '../../store/chats/chatsActions';
 
 const initialChats = [{
         nameChat: "Chat 1",
@@ -48,8 +40,11 @@ const initialMessages = initialChats.reduce((acc, el) => {
 
 
 export const Router=()=>{
-    const [chatList, setChatList] = useState(initialChats);
+    // const [chatList, setChatList] = useState(initialChats);
     const [messages, setMessages] = useState(initialMessages);
+
+    const chatList =useSelector((state)=>state.chats);
+    const dispatch = useDispatch();
 
     const handleAddMessage = (chatId, newMessage) => {
         setMessages((prevMessages) => ({
@@ -60,19 +55,16 @@ export const Router=()=>{
 
     const handleAddchat=(newChatName)=>{
         const newId=`chat-${Date.now()}`;
-        const newChat={
-            id:newId,
-            nameChat: newChatName,
-        };
-
-        setChatList((prevChatList)=>[...prevChatList,newChat]);
+        
+        dispatch(addChat(newId,newChatName))
         setMessages((prevMessages)=>({...prevMessages,
             [newId]:[]
         }))
     }
 
     const handleDelchat = (idDelChat) => {
-        setChatList(prevChatList=>prevChatList.filter(chat=>chat.id!==idDelChat));
+        dispatch(deleteChat(idDelChat))
+        // setChatList(prevChatList=>prevChatList.filter(chat=>chat.id!==idDelChat));
         setMessages((prevMessages) => {
             const newMessages ={...prevMessages};
             delete newMessages[idDelChat];

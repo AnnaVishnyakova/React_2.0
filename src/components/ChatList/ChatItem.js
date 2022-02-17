@@ -1,5 +1,6 @@
 import { ListItem, ListItemButton, ListItemText } from "@mui/material"
 import { Link } from "react-router-dom"
+import { DeleteButton } from "./DeleteButton"
 
 export const ChatItem =({chat,delChat})=>{
     return (
@@ -7,7 +8,7 @@ export const ChatItem =({chat,delChat})=>{
                  < ListItem disablePadding >
                     <ListItemButton>
                         <ListItemText primary={chat.nameChat} />
-                        <button onClick={()=>delChat(chat.id)}>del</button>
+                        <DeleteButton id={chat.id} onClick={delChat}>del</DeleteButton>
                     </ListItemButton>
                 </ListItem>
         </Link>

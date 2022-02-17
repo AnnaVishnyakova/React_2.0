@@ -1,11 +1,18 @@
 import { Checkbox } from "@mui/material";
-import { useDispatch, useSelector } from "react-redux"
-import { changeShowName, CHANGE_NAME } from "../store/profile/action";
+import {
+    shallowEqual,
+    useDispatch,
+    useSelector
+} from "react-redux"
+import { changeName, changeShowName } from "../store/profile/action";
 import {Form} from '../components/Form'
+import { selectName, selectShowName } from "../store/profile/selector.js";
 
 export const ProfilePage=()=>{
     const dispatch =useDispatch();
-     const { showName, name } = useSelector((state) => state);
+    const showName = useSelector(selectShowName, shallowEqual);
+    const name = useSelector(selectName);
+
     
     const handleChangeShowName =()=>{
         dispatch(changeShowName)
@@ -13,10 +20,7 @@ export const ProfilePage=()=>{
     }
 
     const handleChangeName = (text) => {
-        dispatch({
-            type: CHANGE_NAME,
-            payload: text,
-        });
+        dispatch(changeName(text));
     };
 
     return (
@@ -34,3 +38,4 @@ export const ProfilePage=()=>{
         </div>
     )
 }
+
